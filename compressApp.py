@@ -11,6 +11,7 @@ class myList(list):
         else:
             return self[index]
 
+
 class CompressApp:
 
     def __init__(self):
@@ -151,9 +152,17 @@ class CompressApp:
 
     def expend(self, shrinked_BWT):
         res = ""
-        for i in range(0,len(shrinked_BWT),2):
+        i = 0
+        while i < len(shrinked_BWT):
+            if self.is_integer(shrinked_BWT[i]):
+                my_int = shrinked_BWT[i]
+                i += 1
+                while i < len(shrinked_BWT) and self.is_integer(shrinked_BWT[i]):
+                    my_int += shrinked_BWT[i]
+                    i+=1
 
-            res += int(shrinked_BWT[i]) * shrinked_BWT[i+1]
+            res += int(my_int) * shrinked_BWT[i]
+            i+= 1
         return res
 
 
@@ -182,10 +191,17 @@ class CompressApp:
 
         return myList(tmp)
 
+    def is_integer(self, value):
+        try:
+            int(value)
+            return True
+        except ValueError:
+            return False
+
 
 
 if __name__ == "__main__":
     myApp = CompressApp()
-    myApp.prompt()
-    #args = myApp.parser.parse_args(["-compress", "test"])
-    #myApp.main(args)
+    #myApp.prompt()
+    args = myApp.parser.parse_args(["-decompress", "test_c"])
+    myApp.main(args)
